@@ -63,4 +63,6 @@ jobs:
       - name: Client-side validate
         run: |
           set -euo pipefail
-          kubectl apply --dry-run=client -f k8s >/dev/null
+          # В GitHub Actions нет kube-apiserver, поэтому kubectl не может скачать OpenAPI схему
+          # для встроенной валидации. Схемы мы валидируем отдельным шагом kubeconform.
+          kubectl apply --dry-run=client --validate=false -f k8s >/dev/null
