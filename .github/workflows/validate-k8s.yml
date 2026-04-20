@@ -6,7 +6,7 @@ on:
       - "k8s/**"
       - ".github/workflows/**"
   push:
-    branches: ["main"]
+    branches: ["kubernetes-basics"]
     paths:
       - "k8s/**"
       - ".github/workflows/**"
