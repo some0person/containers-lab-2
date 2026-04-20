@@ -1,3 +1,4 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,35 +17,35 @@ spec:
         app: postgres
     spec:
       containers:
-      - name: postgres
-        image: postgres:15-alpine
-        ports:
-        - containerPort: 5432
-        env:
-        - name: POSTGRES_USER
-          value: "postgres"
-        - name: POSTGRES_PASSWORD
-          value: "secret"
-        - name: POSTGRES_DB
-          value: "myapp"
-        volumeMounts:
-        - name: postgres-data
-          mountPath: /var/lib/postgresql/data
-        - name: init-script
-          mountPath: /docker-entrypoint-initdb.d
-        resources:
-          requests:
-            memory: "256Mi"
-            cpu: "250m"
-          limits:
-            memory: "512Mi"
-            cpu: "500m"
+        - name: postgres
+          image: postgres:15-alpine
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              value: "secret"
+            - name: POSTGRES_DB
+              value: "myapp"
+          volumeMounts:
+            - name: postgres-data
+              mountPath: /var/lib/postgresql/data
+            - name: init-script
+              mountPath: /docker-entrypoint-initdb.d
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
       volumes:
-      - name: postgres-data
-        emptyDir: {} # Временное хранилище (в следующей работе заменим на PersistentVolume)
-      - name: init-script
-        configMap:
-          name: postgres-init-sql
+        - name: postgres-data
+          emptyDir: {}  # Временное хранилище (в следующей работе заменим на PersistentVolume)
+        - name: init-script
+          configMap:
+            name: postgres-init-sql
 ---
 apiVersion: v1
 kind: ConfigMap
